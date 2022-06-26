@@ -16,7 +16,7 @@ const app = express();
 
 const PORT = 3000;
 
-mongoose.connect('mongodb://localhost:27017/mydb', (err) => {
+mongoose.connect('mongodb://localhost:27017/diplomaDb', (err) => {
   if (err) {
     throw err;
   }
@@ -25,8 +25,8 @@ mongoose.connect('mongodb://localhost:27017/mydb', (err) => {
 
 const corsOptions = {
   credentials: true,
-  origin: ['https://sleepydoo.mesto.nomoredomains.xyz',
-    'http://sleepydoo.mesto.nomoredomains.xyz',
+  origin: ['https://sleepydoo.diploma.nomoredomains.xyz',
+    'http://sleepydoo.diploma.nomoredomains.xyz',
     'https://localhost:3000',
     'http://localhost:3000',
   ],
