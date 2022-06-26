@@ -16,7 +16,7 @@ const app = express();
 
 const PORT = 3000;
 
-mongoose.connect('mongodb://localhost:27017/diplomaDb', (err) => {
+mongoose.connect('mongodb://localhost:27017/diplomadb', (err) => {
   if (err) {
     throw err;
   }
