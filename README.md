@@ -1,2 +1,2 @@
 # movies-explorer-api
-### project api url: https://sleepydoo.diploma.nomoredomains.xyz
+### project api url: https://api.sleepydoo.diploma.nomoredomains.xyz
