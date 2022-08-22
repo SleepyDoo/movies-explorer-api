@@ -29,6 +29,8 @@ const corsOptions = {
     'http://sleepydoo.mesto.nomoredomains.xyz',
     'https://localhost:3000',
     'http://localhost:3000',
+    'http://localhost:3001',
+    'https://localhost:3001',
   ],
   optionsSuccessStatus: 200,
   method: ['GET, HEAD, PUT, PATCH, POST, DELETE'],
