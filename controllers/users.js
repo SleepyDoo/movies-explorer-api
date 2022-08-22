@@ -41,7 +41,13 @@ module.exports.updateUser = (req, res, next) => {
         res.send({ data: user });
       }
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(new ConflictErr('Почта уже занята'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.login = (req, res, next) => {
@@ -89,8 +95,9 @@ module.exports.createUser = (req, res, next) => {
       }
       if (err.code === 11000) {
         next(new ConflictErr('Почта уже занята'));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 

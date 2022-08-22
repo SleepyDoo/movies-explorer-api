@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -9,24 +11,27 @@ const { errorHandler } = require('./errors/errorHandler');
 const NotFoundErr = require('./errors/notFoundErr');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { auth } = require('./middlewares/auth');
-const { login, createUser } = require('./controllers/users');
-const { loginVal, createUserVal } = require('./middlewares/validation');
 
 const app = express();
 
 const PORT = 3000;
 
-mongoose.connect('mongodb://localhost:27017/mydb', (err) => {
-  if (err) {
-    throw err;
-  }
+let DB_URL;
+
+if (process.env.NODE_ENV !== 'production') {
+  DB_URL = 'DB_URL=mongodb://localhost:27017/mydb';
+} else {
+  DB_URL = process.env.DB_URL;
+}
+
+mongoose.connect(DB_URL, () => {
   console.log('connected to MongoDB');
 });
 
 const corsOptions = {
   credentials: true,
-  origin: ['https://sleepydoo.mesto.nomoredomains.xyz',
-    'http://sleepydoo.mesto.nomoredomains.xyz',
+  origin: ['https://sleepydoo.diploma.nomoredomains.xyz',
+    'http://sleepydoo.diploma.nomoredomains.xyz',
     'https://localhost:3000',
     'http://localhost:3000',
     'http://localhost:3001',
@@ -45,15 +50,16 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 
-app.post('/signin', loginVal, login);
-app.post('/signup', createUserVal, createUser);
+app.use(require('./routes/authorization'));
 
-app.use('/', auth, require('./routes/users'));
-app.use('/', auth, require('./routes/movies'));
+app.use(auth);
+
+app.use(require('./routes/users'));
+app.use(require('./routes/movies'));
 
 app.use((req, res, next) => {
   next(new NotFoundErr('Не найдено'));
-}, auth);
+});
 
 app.use(errorLogger);
 
